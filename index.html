@@ -22,13 +22,24 @@
     <meta property="twitter:description" content="Weekly AI strategy playbook for directors and VPs leading transformation while running real operations.">
     <meta property="twitter:image" content="https://www.aisecondact.com/og-image.png">
     
-    <link rel="stylesheet" href="styles.css">
+    <!-- Performance Optimizations -->
+    <link rel="preload" href="styles.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+    <noscript><link rel="stylesheet" href="styles.css"></noscript>
+    
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="preload" href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" as="style" onload="this.onload=null;this.rel='stylesheet'">
+    <noscript><link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet"></noscript>
+    
+    <!-- Additional Meta Tags -->
+    <meta name="theme-color" content="#3b82f6">
+    <link rel="canonical" href="https://www.aisecondact.com">
 </head>
 <body>
+    <!-- Skip Link for Screen Readers -->
+    <a class="skip-link" href="#main-content">Skip to main content</a>
     <!-- Hero Section -->
+    <main id="main-content">
     <section class="hero">
         <div class="container">
             <div class="hero-content">
@@ -39,10 +50,11 @@
                 <!-- Primary Signup Form -->
                 <form class="signup-form" id="hero-signup">
                     <div class="form-group">
-                        <input type="email" id="email" name="email" placeholder="Enter your work email" required>
+                        <label for="email" class="sr-only">Email address</label>
+                        <input type="email" id="email" name="email" placeholder="Enter your work email" required aria-describedby="email-help">
                         <button type="submit" class="cta-button">Get AI-Ready</button>
                     </div>
-                    <p class="form-note">Join 1,000+ operating leaders • Free weekly delivery • Unsubscribe anytime</p>
+                    <p class="form-note" id="email-help">Join 1,000+ operating leaders • Free weekly delivery • Unsubscribe anytime</p>
                 </form>
                 
                 <div class="social-proof">
@@ -177,14 +189,16 @@
                 <!-- Secondary Signup Form -->
                 <form class="signup-form" id="final-signup">
                     <div class="form-group">
-                        <input type="email" name="email" placeholder="Enter your work email" required>
+                        <label for="email-final" class="sr-only">Email address</label>
+                        <input type="email" id="email-final" name="email" placeholder="Enter your work email" required aria-describedby="email-final-help">
                         <button type="submit" class="cta-button">Start Getting AI-Ready</button>
                     </div>
-                    <p class="form-note">Free weekly delivery • No spam • Unsubscribe anytime</p>
+                    <p class="form-note" id="email-final-help">Free weekly delivery • No spam • Unsubscribe anytime</p>
                 </form>
             </div>
         </div>
     </section>
+    </main>
 
     <!-- Footer -->
     <footer>
@@ -201,30 +215,86 @@
     </footer>
 
     <script>
-        // Form submission handling
+        // Enhanced form submission handling with validation
         document.addEventListener('DOMContentLoaded', function() {
             const forms = document.querySelectorAll('.signup-form');
             
             forms.forEach(form => {
+                const emailInput = form.querySelector('input[type="email"]');
+                const button = form.querySelector('.cta-button');
+                const originalButtonText = button.textContent;
+                
+                // Real-time email validation
+                emailInput.addEventListener('input', function() {
+                    const email = this.value;
+                    const isValid = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+                    
+                    if (email.length > 0) {
+                        if (isValid) {
+                            this.style.borderColor = 'rgba(16, 185, 129, 0.6)';
+                            button.disabled = false;
+                        } else {
+                            this.style.borderColor = 'rgba(239, 68, 68, 0.6)';
+                            button.disabled = true;
+                        }
+                    } else {
+                        this.style.borderColor = 'rgba(255, 255, 255, 0.3)';
+                        button.disabled = false;
+                    }
+                });
+                
                 form.addEventListener('submit', function(e) {
                     e.preventDefault();
-                    const email = this.querySelector('input[type="email"]').value;
+                    const email = emailInput.value.trim();
                     
-                    // Here you would integrate with your email service provider
-                    console.log('Email signup:', email);
+                    if (!email) {
+                        showError('Please enter your email address');
+                        return;
+                    }
                     
-                    // Show success message
-                    const button = this.querySelector('.cta-button');
-                    const originalText = button.textContent;
-                    button.textContent = 'Thanks! Check your email.';
+                    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+                        showError('Please enter a valid email address');
+                        return;
+                    }
+                    
+                    // Show loading state
+                    button.textContent = 'Subscribing...';
                     button.disabled = true;
+                    button.classList.add('loading');
+                    
+                    // Simulate API call (replace with actual email service integration)
+                    setTimeout(() => {
+                        // Success state
+                        button.textContent = '✓ Success! Check your email';
+                        button.style.background = 'var(--success)';
+                        
+                        // Reset after delay
+                        setTimeout(() => {
+                            button.textContent = originalButtonText;
+                            button.style.background = '';
+                            button.disabled = false;
+                            button.classList.remove('loading');
+                            form.reset();
+                            emailInput.style.borderColor = 'rgba(255, 255, 255, 0.3)';
+                        }, 3000);
+                    }, 1500);
+                });
+                
+                function showError(message) {
+                    const existingError = form.querySelector('.error-message');
+                    if (existingError) existingError.remove();
+                    
+                    const errorDiv = document.createElement('div');
+                    errorDiv.className = 'error-message';
+                    errorDiv.textContent = message;
+                    errorDiv.style.cssText = 'color: #ef4444; font-size: 0.875rem; margin-top: 0.5rem; text-align: center;';
+                    
+                    form.appendChild(errorDiv);
                     
                     setTimeout(() => {
-                        button.textContent = originalText;
-                        button.disabled = false;
-                        this.reset();
+                        errorDiv.remove();
                     }, 3000);
-                });
+                }
             });
         });
     </script>
