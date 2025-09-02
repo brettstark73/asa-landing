@@ -40,7 +40,7 @@ body {
 .hero {
     background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
     color: white;
-    padding: 4rem 0 3rem;
+    padding: 1.5rem 0 1rem;
     text-align: center;
     position: relative;
     overflow: hidden;
@@ -65,14 +65,14 @@ body {
 }
 
 .hero h1 {
-    font-size: 3rem;
+    font-size: 2.25rem;
     font-weight: 800;
     margin-bottom: 1rem;
     line-height: 1.1;
 }
 
 .subheadline {
-    font-size: 1.25rem;
+    font-size: 1rem;
     margin-bottom: 1.5rem;
     opacity: 0.95;
     font-weight: 400;
