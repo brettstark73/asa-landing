@@ -637,16 +637,13 @@ button:focus-visible {
 .beehiiv-embed {
     width: 100% !important;
     max-width: 100% !important;
-    height: 300px !important;
+    height: auto !important; /* Changed to auto */
+    min-height: 250px !important; /* Added min-height */
     border-radius: 12px !important;
     background-color: rgba(255, 255, 255, 0.95) !important;
 }
 
-@media (max-width: 640px) {
-    .beehiiv-embed {
-        height: 250px !important;
-    }
-}
+
 
 /* Smooth Scrolling */
 html {
