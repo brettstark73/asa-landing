@@ -1,0 +1,14 @@
+{
+  "name": "asa-landing",
+  "version": "1.0.0",
+  "description": "AI Second Act newsletter landing page - Where Operating Executives Master AI Strategy",
+  "main": "index.html",
+  "scripts": {
+    "dev": "vercel dev",
+    "build": "echo 'Static site - no build needed'",
+    "deploy": "vercel --prod"
+  },
+  "keywords": ["ai-strategy", "newsletter", "executives", "ai-transformation", "operating-leaders"],
+  "author": "Brett Stark",
+  "license": "MIT"
+}
