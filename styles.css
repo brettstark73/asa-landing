@@ -316,7 +316,8 @@ body {
 .author-title {
     font-size: 1.25rem;
     margin-bottom: 2rem;
-    color: var(--text-secondary);
+    color: #2d3748;
+    font-weight: 600;
 }
 
 .credentials {
@@ -342,9 +343,14 @@ body {
 
 .author-note {
     font-size: 1.125rem;
-    color: var(--text-secondary);
+    color: #2d3748;
+    font-weight: 500;
     font-style: italic;
     line-height: 1.7;
+    background: rgba(59, 130, 246, 0.05);
+    padding: 1.5rem;
+    border-radius: 8px;
+    border-left: 4px solid var(--primary-color);
 }
 
 /* Final CTA */
